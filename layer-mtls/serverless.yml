@@ -1,0 +1,20 @@
+service: mtls-lambda-extension
+provider:
+  name: aws
+  stage: ${opt:stage, "dev"}
+  region: ${opt:region, "us-west-2"}
+custom:
+  base: ${self:service}-${self:provider.stage}
+# ***** Lambda Layer *****
+layers:
+  MTLSLambdaExtensionLayer:
+    path: ./
+    name: ${self:custom.base}-mtlsAuth
+    description: Test lambda extension
+    compatibleRuntimes:
+      - nodejs12.x
+    retain: false
+
+outputs:
+  MTLSLambdaExtensionLayerArn:
+    Ref: MTLSLambdaExtensionLayerLambdaLayer
